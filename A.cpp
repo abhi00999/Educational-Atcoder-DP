@@ -24,13 +24,14 @@ freopen("output.txt","w",stdout);*/
 ll a[100001],b[100001],c[100001],t[100001][3];
 
 ll vacation(ll a[],ll b[],ll c[],ll aa,ll bb,ll cc,ll n){
+	//Base Cases
 	if(n==1 && aa==1) return max(b[n-1],c[n-1]);
 	else if(n==1 && bb==1) return max(a[n-1],c[n-1]);
 	else if(n==1 && cc==1) return max(a[n-1],b[n-1]);
 	else if(n==1) return max(max(a[n-1],b[n-1]),c[n-1]);
 
-
-
+    //sabse pehla case ye hy,kyuki shuru mein sab,
+    // aa,bb,cc 0 honge.
 	if(aa==0 && bb==0 && cc==0){
     ll p= a[n-1]+vacation(a,b,c,1,0,0,n-1);
 	ll q= b[n-1]+vacation(a,b,c,0,1,0,n-1);
@@ -40,13 +41,18 @@ ll vacation(ll a[],ll b[],ll c[],ll aa,ll bb,ll cc,ll n){
     t[n-1][2]=r;
     return max(max(t[n-1][0],t[n-1][1]),t[n-1][2]);
     }
+    // jab aa 1 hua, tab hmlog baaki do column(B aur C) mein max 
+    //dekhenge.. aur jo aayega wo store karenge.
     else if(aa==1 && bb==0 && cc==0){
     	if(t[n-1][0]!=-1) return t[n-1][0];
 	ll q= b[n-1]+vacation(a,b,c,0,1,0,n-1);
 	ll r= c[n-1]+vacation(a,b,c,0,0,1,n-1);
+	//Memoization
     t[n-1][0]=max(q,r);
     return t[n-1][0];
     }
+    // jab bb 1 hua, tab hmlog baaki do column(A aur C) mein max 
+    //dekhenge.. aur jo aayega wo store karenge.
     else if(aa==0 && bb==1 && cc==0){
     	if(t[n-1][1]!=-1) return t[n-1][1];
 	ll p= a[n-1]+vacation(a,b,c,1,0,0,n-1);
